@@ -1,13 +1,14 @@
-<script setup lang="ts">
+<script setup lang="ts">import { useNotesStore } from '@/stores/notes';
 
-const notes = [
-];
+const noteStore = useNotesStore();
+const notes = computed(() => noteStore.notes);
+
 
 </script>
 
 <template>
     <div>
-        <Note />
+        <Note v-for="(note, index) of notes" :key="index" :note="note" />
     </div>
 
 </template>

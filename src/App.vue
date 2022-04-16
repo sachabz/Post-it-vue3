@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { useNotesStore } from './stores/notes';
 
-
+const storeNotes = useNotesStore();
+storeNotes.loadNotes();
 </script>
 
 <template>
