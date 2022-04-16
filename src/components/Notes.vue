@@ -1,11 +1,15 @@
 <script setup lang="ts">
-const notes = [];
+
+const notes = [
+];
+
 </script>
 
 <template>
+    <div>
+        <Note />
+    </div>
 
-    <Note title="Hello"></Note>
-    <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
 </template>
 
 <style scoped>

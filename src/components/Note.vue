@@ -1,24 +1,35 @@
 <script setup lang="ts">
-interface Row {
-    content: string;
+import {
+    Edit
+} from '@element-plus/icons-vue'
+import { stringify } from 'querystring';
+
+
+// note : {
+//     title: string
+//     content: []
+// }
+
+interface Note {
+    title: string
+    content: string[];
 }
 interface Props {
-    title?: String;
-    rows?: Row[];
+    note?: Note;
 }
 const props = withDefaults(defineProps<Props>(), {
-    title: "Titre",
-    rows: () => ["liste 1", "liste 2"],
+    note: () => { },
 });
 
 //Draggable Note
+// const draggable = ref<typeof ElCard | null>(null);
 const draggable = ref<HTMLElement | null>(null);
 const { x, y, style } = useDraggable(draggable, {
     initialValue: { x: 40, y: 40 },
 })
 
 //Use props into JS
-const { rows, title } = toRefs(props);
+const { note } = toRefs(props);
 
 //Update Note
 
@@ -31,10 +42,10 @@ const { rows, title } = toRefs(props);
                 <div class="card-header">
                     <span>{{ title }}</span>
                     <el-button class="button" type="text">
-                        <!-- <el-icon>
+                        <el-icon>
                             <edit />
-                        </el-icon> -->
-                        Update
+                        </el-icon>
+
                     </el-button>
                 </div>
             </template>

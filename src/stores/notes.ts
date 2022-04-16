@@ -1,13 +1,13 @@
 export const useNotesStore = defineStore({
     id: "note",
     state: () => ({
-        rows: [
-            title: "Projet 1",
-            rows: [
-                { content: "liste 1" }
-                { content: "liste 2" }
-            ]
-        ]
+        // rows: [
+        //     title: "Projet 1",
+        //     rows: [
+        //         { content: "liste 1" }
+        //         { content: "liste 2" }
+        //     ]
+        // ]
     }),
     getters: {
 
