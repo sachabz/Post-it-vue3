@@ -25,11 +25,17 @@ const { x, y, style } = useDraggable(draggable, {
 //SaveNotes
 const saveNote = throttle(() => {
     noteStore.saveNotes();
-}, 2000)
+}, 2000, { leading: true, trailing: true })
 
 //Update Note
-const updateTitle = () => {
-    noteStore.updateNote(note.value.id)
+const updateTitle = (value: string) => {
+    noteStore.updateNote(note.value.id, value);
+    saveNote();
+}
+const updateRow = (value: string, index: number) => {
+    const rows = [...note.value.lines.slice(undefined, index), value, ...note.value.lines.slice(index + 1)];
+    noteStore.updateNote(note.value.id, undefined, rows);
+    saveNote();
 }
 watch([x, y], () => {
     noteStore.updateNotePosition(note.value.id, { x: x.value, y: y.value })
@@ -43,22 +49,29 @@ watch([x, y], () => {
         <el-card class="box-card">
             <template #header>
                 <div class="card-header">
-                    <span>{{ note.title }}</span>
-                    <el-button class="button" type="text" @click="updateTitle">
+                    <!-- <span>{{ note.title }}</span> -->
+                    <el-input class="no-border" :model-value="note.title" @update:model-value="updateTitle"
+                        placeholder="titre" />
+                    <!-- <el-button class="button" type="text" @click="updateTitle">
                         <el-icon>
                             <edit />
                         </el-icon>
 
-                    </el-button>
+                    </el-button> -->
                 </div>
             </template>
-            <div v-for="(row, index) of note.lines" :key="index" class="text item">{{ row }}</div>
+            <!-- <div v-for="(row, index) of note.lines" :key="index" class="text item">{{ row }}</div> -->
+            <div v-for="(row, index) of note.lines" :key="index" class="text item">
+                <el-input class="no-border" :model-value="row" @update:model-value="updateRow($event, index)"
+                    placeholder="titre" />
+            </div>
+
         </el-card>
     </div>
 
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -75,5 +88,9 @@ watch([x, y], () => {
 
 .box-card {
     width: 480px;
+}
+
+.no-border {
+    --el-input-border-color: transparent;
 }
 </style>
