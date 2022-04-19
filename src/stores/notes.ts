@@ -34,6 +34,9 @@ export const useNotesStore = defineStore({
             if (storedNotes === null) return;
             const notes = JSON.parse(storedNotes);
             this.notes = notes;
+        },
+        deleteNote(id: number) {
+            this.notes.splice(id, 1);
         }
     },
 })

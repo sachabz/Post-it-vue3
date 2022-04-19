@@ -2,7 +2,7 @@
 import type { Note } from '@/models/note';
 import { useNotesStore } from '@/stores/notes';
 import {
-    Edit
+    Delete
 } from '@element-plus/icons-vue'
 import { throttle } from 'lodash';
 
@@ -37,6 +37,11 @@ const updateRow = (value: string, index: number) => {
     noteStore.updateNote(note.value.id, undefined, rows);
     saveNote();
 }
+//Delete Note
+const deleteNote = () => {
+    const idInterger = Number(note.value.id);
+    noteStore.deleteNote(idInterger);
+}
 watch([x, y], () => {
     noteStore.updateNotePosition(note.value.id, { x: x.value, y: y.value })
     saveNote();
@@ -52,12 +57,12 @@ watch([x, y], () => {
                     <!-- <span>{{ note.title }}</span> -->
                     <el-input class="no-border" :model-value="note.title" @update:model-value="updateTitle"
                         placeholder="titre" />
-                    <!-- <el-button class="button" type="text" @click="updateTitle">
+                    <el-button class="button" type="text" @click="deleteNote">
                         <el-icon>
-                            <edit />
+                            <delete />
                         </el-icon>
 
-                    </el-button> -->
+                    </el-button>
                 </div>
             </template>
             <!-- <div v-for="(row, index) of note.lines" :key="index" class="text item">{{ row }}</div> -->

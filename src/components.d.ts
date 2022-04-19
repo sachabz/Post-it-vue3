@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     Button: typeof import('./components/Button.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     Elliott: typeof import('./components/Elliott.vue')['default']
     IconCommunity: typeof import('./components/icons/IconCommunity.vue')['default']
