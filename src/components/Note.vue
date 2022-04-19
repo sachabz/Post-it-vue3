@@ -2,7 +2,8 @@
 import type { Note } from '@/models/note';
 import { useNotesStore } from '@/stores/notes';
 import {
-    Delete
+    Delete,
+    InfoFilled
 } from '@element-plus/icons-vue'
 import { throttle } from 'lodash';
 
@@ -37,15 +38,21 @@ const updateRow = (value: string, index: number) => {
     noteStore.updateNote(note.value.id, undefined, rows);
     saveNote();
 }
-//Delete Note
-const deleteNote = () => {
-    const idInterger = Number(note.value.id);
-    noteStore.deleteNote(idInterger);
-}
 watch([x, y], () => {
     noteStore.updateNotePosition(note.value.id, { x: x.value, y: y.value })
     saveNote();
 })
+//Delete Note
+const deleteNote = () => {
+    const idInterger = Number(note.value.id);
+    noteStore.deleteNote(idInterger);
+    saveNote();
+}
+const cancelEvent = () => {
+    console.log('cancel!')
+}
+
+
 
 </script>
 
@@ -57,12 +64,25 @@ watch([x, y], () => {
                     <!-- <span>{{ note.title }}</span> -->
                     <el-input class="no-border" :model-value="note.title" @update:model-value="updateTitle"
                         placeholder="titre" />
-                    <el-button class="button" type="text" @click="deleteNote">
+
+                    <el-popconfirm confirm-button-text="Oui" @confirm="deleteNote" cancel-button-text="Non, Merci"
+                        @cancel="cancelEvent" :icon="InfoFilled" icon-color="red"
+                        title="Êtes vous sûre de vouloir supprimer?">
+                        <template #reference>
+                            <el-button class="button" type="text">
+                                <el-icon color="danger">
+                                    <delete />
+                                </el-icon>
+                            </el-button>
+                        </template>
+                    </el-popconfirm>
+
+
+                    <!-- <el-button class="button" type="text" @click="deleteNote">
                         <el-icon>
                             <delete />
                         </el-icon>
-
-                    </el-button>
+                    </el-button> -->
                 </div>
             </template>
             <!-- <div v-for="(row, index) of note.lines" :key="index" class="text item">{{ row }}</div> -->
