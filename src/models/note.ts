@@ -9,4 +9,5 @@ export interface Note {
     title: string;
     lines: string[];
     position: Position;
+    color: string;
 }

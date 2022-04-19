@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { Note } from '@/models/note';
+import { useCssVar } from '@vueuse/core';
 import { useNotesStore } from '@/stores/notes';
 import {
     Delete,
-    InfoFilled
+    InfoFilled,
+    Edit,
+    StarFilled
 } from '@element-plus/icons-vue'
 import { throttle } from 'lodash';
 
@@ -42,6 +45,23 @@ watch([x, y], () => {
     noteStore.updateNotePosition(note.value.id, { x: x.value, y: y.value })
     saveNote();
 })
+//Update color Note
+const colorsNote = [
+    { text: "Bleu", value: { color: "#2196f3", complementary: "#f36e21", monochromatique: "#4a99da" } },
+    { text: "Rouge", value: { color: "#CF4D10", complementary: "#1099cf", monochromatique: "#b65c33" } },
+    { text: "Jaune", value: { color: "#c69d25", complementary: "#7325c6", monochromatique: "#ad9343" } },
+    { text: "Violet", value: { color: "#7964c9", complementary: "#c9a164", monochromatique: "#857bb0" } },
+    { text: "Vert d'eau", value: { color: "#aaccaa", complementary: "#c9a164", monochromatique: "#857bb0" } },
+    { text: "Vert", value: { color: "#7f965d", complementary: "#965d7f", monochromatique: "#607d34" } },
+    { text: "Orange", value: { color: "#E87700", complementary: "#0800e8", monochromatique: "#cf7f29" } },
+    { text: "Rose", value: { color: "#C800AD", complementary: "#adc800", monochromatique: "#af239c" } },
+    { text: "Acajou", value: { color: "#88421d", complementary: "#1d5f88", monochromatique: "#6f452e" } },
+    { text: "Auburn", value: { color: "#622725", complementary: "#25622d", monochromatique: "#7c4947" } },
+    { text: "Bronze", value: { color: "#614e1a", complementary: "#3b1a61", monochromatique: "#7b6a39" } },
+]
+const updateColorNote = (selection) => {
+    console.log(selection)
+}
 //Delete Note
 const deleteNote = () => {
     const idInterger = Number(note.value.id);
@@ -61,10 +81,28 @@ const cancelEvent = () => {
         <el-card class="box-card">
             <template #header>
                 <div class="card-header">
-                    <!-- <span>{{ note.title }}</span> -->
                     <el-input class="no-border" :model-value="note.title" @update:model-value="updateTitle"
                         placeholder="titre" />
 
+                    <!-- Update color note -->
+                    <el-dropdown trigger="click">
+                        <el-button class="button" type="text">
+                            <el-icon color="danger">
+                                <edit />
+                            </el-icon>
+                        </el-button>
+                        <template #dropdown>
+                            <el-dropdown-menu @command="updateColorNote">
+                                <el-dropdown-item v-for="(color, index) of colorsNote" :key="index">
+                                    <el-icon :color="color.value.color">
+                                        <star-filled />
+                                    </el-icon>{{ color.text }}
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+
+                    <!-- Delete note -->
                     <el-popconfirm confirm-button-text="Oui" @confirm="deleteNote" cancel-button-text="Non, Merci"
                         @cancel="cancelEvent" :icon="InfoFilled" icon-color="red"
                         title="Êtes vous sûre de vouloir supprimer?">
@@ -76,16 +114,10 @@ const cancelEvent = () => {
                             </el-button>
                         </template>
                     </el-popconfirm>
-
-
-                    <!-- <el-button class="button" type="text" @click="deleteNote">
-                        <el-icon>
-                            <delete />
-                        </el-icon>
-                    </el-button> -->
                 </div>
             </template>
-            <!-- <div v-for="(row, index) of note.lines" :key="index" class="text item">{{ row }}</div> -->
+
+            <!-- Note list -->
             <div v-for="(row, index) of note.lines" :key="index" class="text item">
                 <el-input class="no-border" :model-value="row" @update:model-value="updateRow($event, index)"
                     placeholder="titre" />
