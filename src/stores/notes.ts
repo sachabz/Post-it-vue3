@@ -1,5 +1,6 @@
 import type { Note } from "@/models/note";
 import type { Position } from "@/models/position";
+import { indexOf } from "lodash";
 import { v4 as uuidv4 } from 'uuid';
 
 export const useNotesStore = defineStore({
@@ -35,8 +36,12 @@ export const useNotesStore = defineStore({
             const notes = JSON.parse(storedNotes);
             this.notes = notes;
         },
-        deleteNote(id: number) {
-            this.notes.splice(id, 1);
+        // deleteNote(id: number) {
+        //     this.notes.splice(id, 1);
+        // }
+        deleteNote(note: Note) {
+            const indexNote = this.notes.indexOf(note);
+            if (note !== null) this.notes.splice(indexNote, 1)
         }
     },
 })
