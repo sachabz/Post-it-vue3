@@ -66,7 +66,7 @@ const updateColorNote = (selection) => {
 const deleteNote = () => {
     // const idInterger = Number(note.value.id);
     // noteStore.deleteNote(idInterger);
-    noteStore.deleteNote(note.value);
+    noteStore.deleteNote(note.value.id);
     saveNote();
 }
 const cancelEvent = () => {
